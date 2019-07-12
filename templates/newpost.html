@@ -19,7 +19,7 @@
     <form action="/newpost" method="post">
 
         <div>
-            <label for='title'>Title for your new blog:</label>
+            <label for="title">Title for your new blog:</label>
             <br>
             <input type="text" name="title" value="{{title}}">
             <p class="error">{{title_error}}</p>
@@ -27,11 +27,9 @@
         </div>
     
         <div>
-            <label for='body'>New Blog:</label>
+            <label for="body">New Blog:</label>
             <br>
-            <textarea type="text" name="body" rows="5" cols="50">
-                {{body}}
-            </textarea>
+            <textarea name="body" rows="5" cols="50">{{body}}</textarea>
             <p class="error">{{body_error}}</p> 
             <br>
         </div>

@@ -35,6 +35,7 @@ def blog():
 def new_post():
 
     if request.method=='POST':
+
         title= request.form['title']
         body= request.form['body']
         
@@ -42,7 +43,15 @@ def new_post():
         body_error=''
 
         new_entry=Blog(title, body)
+      
 
+        if not body:
+            body_error='Please enter the blog entry'
+            body=''
+        if not title:
+            title_error='Please enter the title entry'
+            title=''
+        
         if title and body:
             db.session.add(new_entry)
             db.session.commit()
@@ -50,17 +59,6 @@ def new_post():
             return redirect(new_entry)
 
         else:
-            if title and body:
-                body_error='Please enter the blog entry'
-                title_error='Please enter the blog entry'
-                body=''
-                title=''
-            elif body:
-                body_error='Please enter the blog entry'
-                body=''
-            else:
-                title_error='Please enter the blog entry'
-                title=''
             return render_template('newpost.html', title_error=title_error, body_error=body_error, body=body, title=title)
     else:
         return render_template('newpost.html')
