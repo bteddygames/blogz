@@ -4,13 +4,20 @@
 <h1>Build a Blog</h1>
 <hr>
 
-<form action="/blog" method="post">
+<form action="/blog">
     <div>
+    {% if blogs|length!= 0 %}
+        <p>No posts right now! Be the first one! <a href="/newpost">Start Here!</a></p>
+
+    {% else %}
+
         {% for blog in blogs %}
-        <h2><a href="./blog?id={{blog.id}}">{{blog.title}}</a></h2>
+        <h2><a href="/blog?id={{blog.id}}">{{blog.title}}</a></h2>
         <div>{{blog.body}}</div>
+        <p>Written by <a href="/blog?user={{blog.owner_id}}">{{blog.owner.username}}</a>.</p>
         <hr>
         {% endfor %}
+    {% endif %}
     </div>
 </form>
 {% endblock %}
