@@ -1,23 +1,17 @@
-{% extends "base.html" %}
-
+{% extends 'base.html' %}
 {% block content %}
 <h1>Build a Blog</h1>
-<hr>
-
-<form action="/blog">
-    <div>
-    {% if blogs|length!= 0 %}
-        <p>No posts right now! Be the first one! <a href="/newpost">Start Here!</a></p>
+<div class="blogs">
+    {% if blogs|length == 0 %}
+        <p>No posts yet! <a href="/newpost">Write one!</a></p>
 
     {% else %}
-
-        {% for blog in blogs %}
-        <h2><a href="/blog?id={{blog.id}}">{{blog.title}}</a></h2>
-        <div>{{blog.body}}</div>
-        <p>Written by <a href="/blog?user={{blog.owner_id}}">{{blog.owner.username}}</a>.</p>
-        <hr>
+        {% for post in blogs %}
+            <h2><a href="/blog?id={{post.id}}">{{post.title}}</a></h2>
+            <p>{{post.content}}</p>
+            <p id="author">Written by <a href="blog?user={{post.owner.id}}">{{post.owner.username}}</a>.</p>
+            <hr>
         {% endfor %}
     {% endif %}
-    </div>
-</form>
+</div>
 {% endblock %}

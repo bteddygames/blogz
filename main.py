@@ -40,18 +40,22 @@ def required_login():
 @app.route('/blog')
 def blog():
 
-    blogs= Blog.query.all()
-    blog_id= request.args.get('id')
-    user_id= request.args.get('username')
-    
-    if user_id:
-        posts= Blog.query.filter_by(owner_id=user_id)
-        return render_template('user.html', posts=blogs)
-    if blog_id:
-        post= Blog.query.get(blog_id)
-        return render_template('entry.html', post=post )
+    if session:
+        owner= User.query.filter_by(username= session['username']).first()
 
-    return render_template('blog.html', blogs=blogs)
+    if "id" in request.args:
+        post_id= request.args.get('id')
+        blogs= Blog.query.filter_by(id= post_id).all()
+        return render_template('blog.html', blogs= blogs, post_id= post_id)
+
+    elif "user" in request.args:
+        user_id= request.args.get('user')
+        blogs= Blog.query.filter_by(owner_id= user_id).all()
+        return render_template('blog.html', blogs= blogs)
+
+    else:
+        blogs= Blog.query.order_by(Blog.id.desc()).all()
+        return render_template('blog.html', blogs= blogs)
 
 
 @app.route('/newpost', methods=['POST', 'GET'])
